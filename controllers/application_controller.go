@@ -75,3 +75,13 @@ func AgentReferenceHistory(context *gin.Context) {
 		},
 	)
 }
+
+
+// func generateApplicationNumber(bankName string, userId string)
+// {
+// 	var applicationNumber = strings.Builder
+
+// 	applicationNumber.w
+
+// 	return applicationNumber.String();
+// }

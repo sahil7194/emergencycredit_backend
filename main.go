@@ -1,18 +1,41 @@
 package main
 
 import (
-	"backend/router"
 	"fmt"
 	"os"
+	"strings"
+	"time"
 
+	"github.com/jaswdr/faker"
 	"github.com/joho/godotenv"
 )
 
 func main() {
 
-	initApplication()
+	faker := faker.New()
 
-	router.InitRoutes()
+	appNumber := generateApplicationNumber("Union Bank", 1234)
+
+	fmt.Println(faker.Internet().Slug())
+	fmt.Println(appNumber)
+
+	// initApplication()
+
+	// router.InitRoutes()
+}
+
+func generateApplicationNumber(bankName string, userId int) string {
+	// Format current time as "YYYYMMDDHHMMSS"
+	today := time.Now().Format("20060102150405")
+
+	// Convert bank name to uppercase and take first 3 letters
+	bankName = strings.ToUpper(bankName)
+	if len(bankName) > 3 {
+		bankName = bankName[:3]
+	}
+
+	// Construct the application number
+	return fmt.Sprintf("AP%s%s%d", today, bankName, userId)
 }
 
 func initApplication() {

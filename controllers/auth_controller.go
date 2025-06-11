@@ -1,12 +1,21 @@
 package controllers
 
 import (
+	"backend/request/auth"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 func SignIn(context *gin.Context) {
+
+	var request auth.LoginRequest
+
+	if err := context.ShouldBindBodyWithJSON(&request); err != nil {
+
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	context.JSON(
 		http.StatusOK,
