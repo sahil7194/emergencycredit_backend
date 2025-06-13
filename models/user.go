@@ -5,6 +5,7 @@ import (
 )
 
 type User struct {
+	Name        string `json:"name"`
 	Slug        string `json:"slug"`
 	Password    string `json:"-"`
 	Email       string `json:"email" gorm:"unique"`
