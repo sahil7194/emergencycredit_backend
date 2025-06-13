@@ -1,27 +1,34 @@
 package main
 
 import (
+	"backend/config"
+	"backend/router"
 	"fmt"
 	"os"
 	"strings"
 	"time"
 
-	"github.com/jaswdr/faker"
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
 func main() {
 
-	faker := faker.New()
+	// on only for production mode
+	gin.SetMode(gin.ReleaseMode)
 
-	appNumber := generateApplicationNumber("Union Bank", 1234)
+	// faker := faker.New()
 
-	fmt.Println(faker.Internet().Slug())
-	fmt.Println(appNumber)
+	// appNumber := generateApplicationNumber("Union Bank", 1234)
 
-	// initApplication()
+	// fmt.Println(faker.Internet().Slug())
+	// fmt.Println(appNumber)
 
-	// router.InitRoutes()
+	initApplication()
+
+	config.ConnectDatabase()
+
+	router.InitRoutes()
 }
 
 func generateApplicationNumber(bankName string, userId int) string {
