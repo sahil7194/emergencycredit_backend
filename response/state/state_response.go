@@ -1,6 +1,6 @@
 package response
 
 type StateResponse struct {
-	ID   string `json:"id"`
+	Id   uint   `json:"id"`
 	Name string `json:"name"`
 }

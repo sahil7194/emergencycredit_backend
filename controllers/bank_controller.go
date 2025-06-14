@@ -32,6 +32,7 @@ func BankIndex(context *gin.Context) {
 			VendorCode: bank.VendorCode,
 		})
 	}
+
 	context.JSON(
 		http.StatusOK,
 		gin.H{
