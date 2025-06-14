@@ -63,7 +63,7 @@ func registerCrmRoutes(rg *gin.RouterGroup) {
 		{
 			schemes.GET("/", controllers.SchemeIndex)
 			schemes.POST("/", controllers.SchemeStore)
-			schemes.GET("/:slug", controllers.SchemeIndex)
+			schemes.GET("/:slug", controllers.SchemeShow)
 			schemes.PUT("/:slug", controllers.SchemeUpdate)
 			schemes.DELETE("/:slug", controllers.SchemeDestroy)
 		}

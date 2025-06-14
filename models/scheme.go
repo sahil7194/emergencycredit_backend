@@ -13,11 +13,12 @@ type Scheme struct {
 	RedirectionLink string `json:"redirection_link" gorm:"type:text;not null"`
 	MinInterestRate string `json:"min_interest_rate" gorm:"type:varchar(100)"`
 	MaxInterestRate string `json:"max_interest_rate" gorm:"type:varchar(100)"`
-	MinCIBIL        string `json:"min_cibil" gorm:"type:varchar(100)"`
-	MaxCIBIL        string `json:"max_cibil" gorm:"type:varchar(100)"`
+	MinCibil        string `json:"min_cibil" gorm:"type:varchar(100)"`
+	MaxCibil        string `json:"max_cibil" gorm:"type:varchar(100)"`
 	MinTenure       string `json:"min_tenure" gorm:"type:varchar(100)"`
 	MaxTenure       string `json:"max_tenure" gorm:"type:varchar(100)"`
 	MinAmount       string `json:"min_amount" gorm:"type:varchar(100)"`
 	MaxAmount       string `json:"max_amount" gorm:"type:varchar(100)"`
 	Status          string `json:"status" gorm:"type:varchar(100)"`
+	BankId          string `json:"bank_id" gorm:"type:varchar(100)"`
 }
