@@ -11,7 +11,6 @@ type Scheme struct {
 	Description     string `json:"description" gorm:"type:text;not null"`
 	Image           string `json:"image,omitempty" gorm:"type:varchar(255);default:null"`
 	RedirectionLink string `json:"redirection_link" gorm:"type:text;not null"`
-
 	MinInterestRate string `json:"min_interest_rate" gorm:"type:varchar(100)"`
 	MaxInterestRate string `json:"max_interest_rate" gorm:"type:varchar(100)"`
 	MinCIBIL        string `json:"min_cibil" gorm:"type:varchar(100)"`

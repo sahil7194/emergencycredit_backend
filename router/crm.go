@@ -32,6 +32,15 @@ func registerCrmRoutes(rg *gin.RouterGroup) {
 			banks.DELETE("/:slug", controllers.BankDestroy)
 		}
 
+		blogs := crm.Group("/blogs")
+		{
+			blogs.GET("/", controllers.BlogIndex)
+			blogs.POST("/", controllers.BlogStore)
+			blogs.GET("/:slug", controllers.BlogShow)
+			blogs.PUT("/:slug", controllers.BlogUpdate)
+			blogs.DELETE("/:slug", controllers.BlogDestroy)
+		}
+
 		states := crm.Group("/states")
 		{
 			states.GET("/", controllers.StateIndex)
