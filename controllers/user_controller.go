@@ -3,6 +3,7 @@ package controllers
 import (
 	"backend/config"
 	"backend/models"
+	userRequest "backend/request/check-cibil"
 	request "backend/request/user"
 	response "backend/response/user"
 	"net/http"
@@ -13,12 +14,74 @@ import (
 
 func CibilSavePersonalDetails(context *gin.Context) {
 
-	context.JSON(
-		http.StatusOK,
-		gin.H{
-			"message": "save personal details",
-		},
-	)
+	var req userRequest.SavePersonalDetails
+
+	if reqErr := context.ShouldBindBodyWithJSON(&req); reqErr != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": reqErr})
+	}
+
+	var userCheck models.User
+
+	config.DB.Where("pan=?", req.PanCardNumber).First(&userCheck)
+
+	if userCheck.Slug != "" {
+		response := response.UserResponse{
+			Slug:        userCheck.Slug,
+			Name:        userCheck.Name,
+			Email:       userCheck.Email,
+			Mobile:      userCheck.Mobile,
+			DateOfBirth: userCheck.DateOfBirth,
+			Gender:      userCheck.Gender,
+			Type:        userCheck.Type,
+			Pan:         userCheck.Pan,
+		}
+
+		context.JSON(
+			http.StatusOK,
+			gin.H{
+				"message": "User Store",
+				"user":    response,
+			},
+		)
+		return
+	} else {
+
+		faker := faker.New()
+
+		user := models.User{
+			Slug:        faker.Internet().Slug(),
+			Name:        req.FullName,
+			DateOfBirth: req.DateOfBirth,
+			Gender:      req.Gender,
+			Pan:         req.PanCardNumber,
+		}
+
+		result := config.DB.Create(&user)
+
+		if result.Error != nil {
+			context.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+			return
+		}
+
+		response := response.UserResponse{
+			Slug:        user.Slug,
+			Name:        user.Name,
+			Email:       user.Email,
+			Mobile:      user.Mobile,
+			DateOfBirth: user.DateOfBirth,
+			Gender:      user.Gender,
+			Type:        user.Type,
+			Pan:         user.Pan,
+		}
+
+		context.JSON(
+			http.StatusOK,
+			gin.H{
+				"message": "User Store",
+				"user":    response,
+			},
+		)
+	}
 }
 
 func UserIndex(context *gin.Context) {
@@ -239,3 +302,19 @@ func UpdateAuthUserProfile(context *gin.Context) {
 		},
 	)
 }
+
+// func ValidateUserSlug(slug string) models.User {
+
+// 	if len(slug) == 0 {
+
+// 		return
+// 	}
+
+// 	var user models.User
+// 	if err := config.DB.Where("slug = ?", slug).First(&user).Error; err != nil {
+
+// 		return
+// 	}
+
+// 	return user
+// }

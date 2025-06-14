@@ -37,10 +37,35 @@ func CityIndex(context *gin.Context) {
 
 func CityIndexFilterByStateId(context *gin.Context) {
 
+	var cities []models.City
+
+	state_id := context.Query("state_id")
+
+	if state_id == "" {
+		context.JSON(http.StatusOK, gin.H{"message": "state id required"})
+		return
+	}
+
+	if err := config.DB.Where("state_id=?", state_id).Find(&cities).Error; err != nil {
+		context.JSON(http.StatusOK, gin.H{"message": "not city found"})
+		return
+	}
+
+	var cityResponse []response.CityResponse
+
+	for _, city := range cities {
+
+		cityResponse = append(cityResponse, response.CityResponse{
+			Id:   city.ID,
+			Name: city.Name,
+		})
+	}
+
 	context.JSON(
 		http.StatusOK,
 		gin.H{
-			"message": "City Index filter by State Id",
+			"message": "city Index",
+			"data":    cityResponse,
 		},
 	)
 }
