@@ -12,10 +12,23 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func main() {
+func init() {
 
-	// on only for production mode
 	gin.SetMode(gin.ReleaseMode)
+
+	errEnv := godotenv.Load()
+	if errEnv != nil {
+		panic("Fail to load Env")
+	}
+
+	var applicationName = os.Getenv("APP_NAME")
+
+	config.ConnectDatabase()
+
+	fmt.Println("Application Name:", applicationName)
+}
+
+func main() {
 
 	// faker := faker.New()
 
@@ -23,10 +36,6 @@ func main() {
 
 	// fmt.Println(faker.Internet().Slug())
 	// fmt.Println(appNumber)
-
-	initApplication()
-
-	config.ConnectDatabase()
 
 	router.InitRoutes()
 }
@@ -43,16 +52,4 @@ func generateApplicationNumber(bankName string, userId int) string {
 
 	// Construct the application number
 	return fmt.Sprintf("AP%s%s%d", today, bankName, userId)
-}
-
-func initApplication() {
-
-	errEnv := godotenv.Load()
-	if errEnv != nil {
-		panic("Fail to load Env")
-	}
-
-	var applicationName = os.Getenv("APP_NAME")
-
-	fmt.Println("Application Name:", applicationName)
 }
