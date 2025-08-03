@@ -8,3 +8,6 @@
 
 - Run Project 
   `go run main.go`
+
+- Run Following cmd to seed data to database 
+    `go run cmd.go`

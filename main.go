@@ -14,12 +14,14 @@ import (
 
 func init() {
 
-	gin.SetMode(gin.ReleaseMode)
-
 	errEnv := godotenv.Load()
 	if errEnv != nil {
 		panic("Fail to load Env")
 	}
+
+	appEnv := os.Getenv("APP_ENV")
+
+	gin.SetMode(appEnv)
 
 	var applicationName = os.Getenv("APP_NAME")
 
